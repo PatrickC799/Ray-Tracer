@@ -45,6 +45,7 @@
 //classes that contain cameras, all derived from Camera
 #include "simple_camera.h"
 #include "full_camera.h"
+#include "quadratic_object.h"
 
 using namespace std;
 
@@ -52,13 +53,14 @@ using namespace std;
 void build_scene(Scene& scene)
 {
 	// The following transform allows 4D homogeneous coordinates to be transformed.It moves the supplied teapot model to somewhere visible.
-	Transform * transform = new Transform(1.0f, 0.0f, 0.0f, 0.0f,
-											0.0f, 0.0f, 1.0f, -60.0f,
-											0.0f, 1.0f, 0.0f, 20.0f,
-											0.0f, 0.0f, 0.0f, 1.0f);
+	Transform * transform = new Transform(1.0f, 0.0f, 0.0f, 0.0f,  // Scale X by 0.5
+									  0.0f, 0.0f, 1.0f, -60.0f,  // Scale Y by 0.5
+									  0.0f, 1.0f, 0.0f, 20.0f,  // Scale Z by 0.5
+									  0.0f, 0.0f, 0.0f, 1.0f); // No translation
+
 
 	//  Read in the teapot model.
-	PolyMesh* pm = new PolyMesh((char *)"teapot-low.obj", true);
+	PolyMesh* pm = new PolyMesh((char *)"teapot.obj", true);
 	pm->apply_transform(*transform);
 
 	Sphere* sphere = new Sphere(Vertex(-5.0f, 5.0f, 10.0f), 1.5f);
@@ -117,6 +119,8 @@ void build_scene(Scene& scene)
 	scene.add_object(backWall);
 	scene.add_object(leftWall);
 	scene.add_object(rightWall);
+
+	Quadratic *elipsoid = new Quadratic(0.25f, )
 }
 
 

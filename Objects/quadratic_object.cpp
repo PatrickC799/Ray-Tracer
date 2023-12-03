@@ -21,15 +21,67 @@
 
 using namespace std;
 
-Quadratic::Quadratic(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j)
-{
+Quadratic::Quadratic(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j) : A(a),
+  B(b), C(c), D(d), E(e), F(f), G(g), H(h), I(i), J(j) {
 
   next = (Object *)0;
 }
 
 Hit *Quadratic::intersection(Ray ray)
 {
-  return 0;
+  float a = A * ray.direction.x * ray.direction.x +
+          B * ray.direction.y * ray.direction.y +
+          C * ray.direction.z * ray.direction.z +
+          D * ray.direction.x * ray.direction.y +  // Missing cross-product term for D
+          E * ray.direction.x * ray.direction.z +  // Missing cross-product term for E
+          F * ray.direction.y * ray.direction.z;   // Missing cross-product term for F
+
+  float b = 2 * A * ray.position.x * ray.direction.x +
+            2 * B * ray.position.y * ray.direction.y +
+            2 * C * ray.position.z * ray.direction.z +
+            D * (ray.position.x * ray.direction.y + ray.direction.x * ray.position.y) +  // Cross-product term for D
+            E * (ray.position.x * ray.direction.z + ray.direction.x * ray.position.z) +  // Cross-product term for E
+            F * (ray.position.y * ray.direction.z + ray.direction.y * ray.position.z) +  // Cross-product term for F
+            G * ray.direction.x +  // Missing linear term for G
+            H * ray.direction.y +  // Missing linear term for H
+            I * ray.direction.z;   // Missing linear term for I
+
+  float c = A * ray.position.x * ray.position.x +
+            B * ray.position.y * ray.position.y +
+            C * ray.position.z * ray.position.z +
+            D * ray.position.x * ray.position.y +  // Missing cross-product term for D
+            E * ray.position.x * ray.position.z +  // Missing cross-product term for E
+            F * ray.position.y * ray.position.z +  // Missing cross-product term for F
+            G * ray.position.x +  // Missing linear term for G
+            H * ray.position.y +  // Missing linear term for H
+            I * ray.position.z +  // Missing linear term for I
+            J;  // Constant term J
+
+  // Calculate discriminant
+  float discriminant = b*b - 4*a*c;
+
+  if (discriminant < 0) {
+    return nullptr; // No intersection
+  }
+
+  // Calculate the two points of intersection t0 and t1
+  float t0 = (-b - sqrt(discriminant)) / (2*a);
+  float t1 = (-b + sqrt(discriminant)) / (2*a);
+
+  // Check if the intersections are in the valid range
+  if (t0 > 0) {
+    // Create a new hit object with t0
+    Hit* hit = new Hit();
+    // Set the position, normal, material, etc. for the hit
+    // Return the hit
+  } else if (t1 > 0) {
+    // Create a new hit object with t1
+    Hit* hit = new Hit();
+    // Set the position, normal, material, etc. for the hit
+    // Return the hit
+  }
+
+  return nullptr; // No valid intersection
 }
 
 
