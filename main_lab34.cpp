@@ -53,6 +53,7 @@ using namespace std;
 // you will find it useful during development/debugging to create multiple functions that fill out the scene.
 void build_scene(Scene& scene)
 {
+	// scene.ambientLight = Colour(0.2f, 0.2f, 0.2f);
 	// The following transform allows 4D homogeneous coordinates to be transformed.It moves the supplied teapot model to somewhere visible.
 	Transform * transform = new Transform(1.0f, 0.0f, 0.0f, 0.0f,  // Scale X by 0.5
 									  0.0f, 0.0f, 1.0f, -60.0f,  // Scale Y by 0.5
@@ -67,7 +68,9 @@ void build_scene(Scene& scene)
 	Sphere* sphere = new Sphere(Vertex(-5.0f, 5.0f, 10.0f), 1.5f);
 
 	DirectionalLight* dl = new DirectionalLight(Vector(0.0f, 0.0f, 1.0f), Colour(1.0f, 1.0f, 1.0f, 0.0f));
+	DirectionalLight* dl1 = new DirectionalLight(Vector(0.0f, 0.0f, 0.5f), Colour(1.0f, 1.0f, 1.0f, 0.0f));
 
+	scene.add_light(dl1);
 	scene.add_light(dl);
 
     Environment* environment = new Environment();
@@ -82,25 +85,25 @@ void build_scene(Scene& scene)
     GlobalMaterial* gm1 = new GlobalMaterial(environment, &scene, reflectWeight, refractWeight, ior);
 	GlobalMaterial* gm2 = new GlobalMaterial(environment, &scene, reflectWeight1, refractWeight1, ior);
 
-	Phong* bp1 = new Phong(new MaterialColour(0.0f, 0.1f, 0.0f,1.0f), new MaterialColour(0.0f, 0.4f, 0.0f,1.0f), new MaterialColour(0.4f, 0.4f, 0.4f,1.0f), 40.f);
-	Phong* bp2 = new Phong(new MaterialColour(0.1f, 0.1f, 0.1f,1.0f), new MaterialColour(0.5f, 0.0f, 0.0f,1.0f), new MaterialColour(0.4f, 0.4f, 0.4f,1.0f), 40.f);
+	Phong* bp1 = new Phong(&scene, new MaterialColour(0.0f, 0.1f, 0.0f,1.0f), new MaterialColour(0.0f, 0.4f, 0.0f,1.0f), new MaterialColour(0.4f, 0.4f, 0.4f,1.0f), 40.f);
+	Phong* bp2 = new Phong(&scene, new MaterialColour(0.1f, 0.1f, 0.1f,1.0f), new MaterialColour(0.5f, 0.0f, 0.0f,1.0f), new MaterialColour(0.4f, 0.4f, 0.4f,1.0f), 40.f);
 
-	Phong *whiteMaterial = new Phong(new MaterialColour(1.0f, 1.0f, 1.0f, 1.0f),
+	Phong *whiteMaterial = new Phong(&scene, new MaterialColour(1.0f, 1.0f, 1.0f, 1.0f),
 									 new MaterialColour(1.0f, 1.0f, 1.0f, 1.0f),
 									 new MaterialColour(1.0f, 1.0f, 1.0f, 1.0f), 40.f);
-	Phong *greenMaterial = new Phong(new MaterialColour(0.0f, 1.0f, 0.0f, 1.0f),
+	Phong *greenMaterial = new Phong(&scene, new MaterialColour(0.0f, 1.0f, 0.0f, 1.0f),
 									 new MaterialColour(0.0f, 0.5f, 0.0f, 1.0f),
 									 new MaterialColour(1.0f, 1.0f, 1.0f, 1.0f), 40.f);
-	Phong *redMaterial = new Phong(new MaterialColour(1.0f, 0.0f, 0.0f, 1.0f),
+	Phong *redMaterial = new Phong(&scene, new MaterialColour(1.0f, 0.0f, 0.0f, 1.0f),
 								   new MaterialColour(0.5f, 0.0f, 0.0f, 1.0f),
 								   new MaterialColour(1.0f, 1.0f, 1.0f, 1.0f), 40.f);
-	Phong *blueMaterial = new Phong(new MaterialColour(0.0f, 0.0f, 0.5f, 1.0f),
+	Phong *blueMaterial = new Phong(&scene , new MaterialColour(0.0f, 0.0f, 0.5f, 1.0f),
 									new MaterialColour(0.0f, 0.0f, 0.5f, 1.0f),
 									new MaterialColour(1.0f, 1.0f, 1.0f, 1.0f), 40.f);
 
 	pm->set_material(bp1);
 
-	// scene.add_object(pm);
+	scene.add_object(pm);
 
 	sphere->set_material(gm1);
 
@@ -133,8 +136,8 @@ void build_scene(Scene& scene)
 	Quadratic *ellipsoid1 = new Quadratic(1 / (a * a), 1 / (b * b), 1 / (c * c), 0.0f, 0.0f,
 		0.0f,0.0f,0.0f, 0.0f, -1.0f);
 
-	// ellipsoid1 ->set_material(gm2);
-	// scene.add_object(ellipsoid1);
+	ellipsoid1 ->set_material(gm2);
+	scene.add_object(ellipsoid1);
 }
 
 

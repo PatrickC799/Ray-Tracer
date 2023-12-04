@@ -22,30 +22,30 @@
 
 #include <math.h>
 
-Phong::Phong(MaterialColour *p_ambient, MaterialColour *p_diffuse, MaterialColour *p_specular, float p_power)
+Phong::Phong(Scene* p_sce, MaterialColour *p_ambient, MaterialColour *p_diffuse, MaterialColour *p_specular, float p_power)
+	: scene(p_sce), ambient(p_ambient), diffuse(p_diffuse), specular(p_specular), power(p_power)
 {
 //BEGIN_STAGE_ONE
-	ambient = p_ambient;
-	diffuse = p_diffuse;
-	specular = p_specular;
-	power = p_power;
+	// ambient = p_ambient;
+	// diffuse = p_diffuse;
+	// specular = p_specular;
+	// power = p_power;
 //END_STAGE_ONE
 }
 
 // The compute_once() method supplies the ambient term.
-Colour Phong::compute_once(Ray& viewer, Hit& hit, int recurse, Scene& scene)
+Colour Phong::compute_once(Ray& viewer, Hit& hit, int recurse)
 {
 	Colour result;
 //BEGIN_STAGE_ONE
 	result = ambient->lookup_colour(hit);
 
-	// int AO_SAMPLES = 4; // Number of samples for AO, adjust as needed
-	// float aoFactor = scene.computeAmbientOcclusion(hit, AO_SAMPLES);
-	// ambient->r = ambient->r * (1.0 - aoFactor * scale);
-	// ambient->g = ambient->g * (1.0 - aoFactor * scale);
-	// ambient->b = ambient->b * (1.0 - aoFactor * scale);
-	// ambient->a = ambient->a * (1.0 - aoFactor * scale);
-	// result = ambient->lookup_colour(hit);
+	int AO_SAMPLES = 8; // Number of samples for AO, adjust as needed
+	float aoFactor = scene->computeAmbientOcclusion(hit, AO_SAMPLES);
+	result.a *= (1.0 - aoFactor * scale);
+	result.r *= (1.0 - aoFactor * scale);
+	result.g *= (1.0 - aoFactor * scale);
+	result.b *= (1.0 - aoFactor * scale);
 
 //END_STAGE_ONE
 	return result;

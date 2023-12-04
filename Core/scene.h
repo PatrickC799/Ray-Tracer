@@ -33,6 +33,7 @@ public:
 
   Object *object_list;
   Light *light_list;
+  // Colour ambientLight;
 
   Scene();
 

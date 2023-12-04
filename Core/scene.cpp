@@ -23,26 +23,48 @@ Scene::Scene()
 	object_list = 0;
 	light_list = 0;
 }
-//
-// float Scene::computeAmbientOcclusion(const Hit& hit, int numSamples) {
-// 	int occludedSamples = 0;
-// 	for (int i = 0; i < numSamples; ++i) {
-// 		// Generate a ray in a random direction within the hemisphere
-// 		Vector randomDir = generateRandomDirectionWithinHemisphere(hit.normal);
-// 		const float OFFSET = 0.0001f;
-// 		Vertex offsetPosition = Vertex(hit.position.x + hit.normal.x * OFFSET,
-// 										hit.position.y + hit.normal.y * OFFSET,
-// 										hit.position.z + hit.normal.z * OFFSET);
-//
-// 		Ray aoRay(offsetPosition, randomDir); // Use the manually offset position
-//
-// 		if (this->shadowtrace(aoRay, 0.0001f)) {
-// 			occludedSamples++;
-// 		}
-// 	}
-// 	return static_cast<float>(occludedSamples) / numSamples;
-// }
-//
+
+float Scene::computeAmbientOcclusion(const Hit& hit, int numSamples) {
+	int occludedSamples = 0;
+	for (int i = 0; i < numSamples; ++i) {
+		// Generate a ray in a random direction within the hemisphere
+		Vector randomDir = generateRandomDirectionWithinHemisphere(hit.normal);
+		const float OFFSET = 0.0001f;
+		Vertex offsetPosition = Vertex(hit.position.x + hit.normal.x * OFFSET,
+										hit.position.y + hit.normal.y * OFFSET,
+										hit.position.z + hit.normal.z * OFFSET);
+
+		Ray aoRay(offsetPosition, randomDir); // Use the manually offset position
+
+		if (this->shadowtrace(aoRay, 0.1f)) {
+			occludedSamples++;
+		}
+	}
+	return static_cast<float>(occludedSamples) / numSamples;
+}
+
+Vector Scene::generateRandomDirectionWithinHemisphere(const Vector& normal) {
+	// Uniformly distributed random numbers
+	float u = static_cast<float>(rand()) / RAND_MAX; // [0, 1]
+	float v = static_cast<float>(rand()) / RAND_MAX; // [0, 1]
+
+	// Convert uniform random numbers to spherical coordinates
+	float theta = 2 * M_PI * u; // Azimuthal angle [0, 2π]
+	float phi = acos(sqrt(v)); // Polar angle [0, π/2]
+
+	// Spherical to Cartesian coordinates conversion
+	Vector randomDir(sin(phi) * cos(theta), sin(phi) * sin(theta), cos(phi));
+	randomDir.normalise();
+
+	// Align with the hemisphere defined by the normal
+	if (randomDir.dot(normal) < 0) {
+		randomDir = -randomDir;
+	}
+
+	return randomDir;
+}
+
+
 // Vector Scene::generateRandomDirectionWithinHemisphere(const Vector& normal) {
 // 	// Random direction generation (this is a basic example; consider a more uniform distribution)
 // 	float u = static_cast<float>(rand()) / RAND_MAX;

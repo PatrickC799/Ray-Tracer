@@ -30,6 +30,7 @@ public:
 	float ior;
 	Environment* environment;
 	Scene* scene;
+	float scale = 1.0f;
 
 	GlobalMaterial(Environment* p_env, Scene* p_sce, Colour p_reflect_weight, Colour p_refract_weight, float ior);
 

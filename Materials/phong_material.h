@@ -21,16 +21,17 @@ public:
 	MaterialColour *diffuse;
 	MaterialColour *specular;
 	float  power;
-	float scale = 0.2f;
+	float scale = 1.0f;
+	Scene* scene;
 
-	Phong(MaterialColour *p_ambient, MaterialColour *p_diffuse, MaterialColour *p_specular, float p_power);
+	Phong(Scene* scene, MaterialColour *p_ambient, MaterialColour *p_diffuse, MaterialColour *p_specular, float p_power);
 //END_STAGE_ONE
 	Phong()
 	{
 
 	}
 
-	Colour compute_once(Ray& viewer, Hit& hit, int recurse, Scene& scene);
+	Colour compute_once(Ray& viewer, Hit& hit, int recurse);
 	Colour compute_per_light(Vector& viewer, Hit& hit, Vector& ldir);
 
 };
