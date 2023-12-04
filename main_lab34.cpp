@@ -46,6 +46,7 @@
 #include "simple_camera.h"
 #include "full_camera.h"
 #include "quadratic_object.h"
+#include "CSG_object.h"
 
 using namespace std;
 
@@ -75,7 +76,11 @@ void build_scene(Scene& scene)
     Colour reflectWeight (0.1f, 0.1f, 0.1f);
     Colour refractWeight (0.9f, 0.9f, 0.9f);
 
+	Colour reflectWeight1 (0, 0.52f, 0.52f);
+	Colour refractWeight1 (1.0f, 0.48f, 0.48f);
+
     GlobalMaterial* gm1 = new GlobalMaterial(environment, &scene, reflectWeight, refractWeight, ior);
+	GlobalMaterial* gm2 = new GlobalMaterial(environment, &scene, reflectWeight1, refractWeight1, ior);
 
 	Phong* bp1 = new Phong(new MaterialColour(0.0f, 0.1f, 0.0f,1.0f), new MaterialColour(0.0f, 0.4f, 0.0f,1.0f), new MaterialColour(0.4f, 0.4f, 0.4f,1.0f), 40.f);
 	Phong* bp2 = new Phong(new MaterialColour(0.1f, 0.1f, 0.1f,1.0f), new MaterialColour(0.5f, 0.0f, 0.0f,1.0f), new MaterialColour(0.4f, 0.4f, 0.4f,1.0f), 40.f);
@@ -92,7 +97,6 @@ void build_scene(Scene& scene)
 	Phong *blueMaterial = new Phong(new MaterialColour(0.0f, 0.0f, 0.5f, 1.0f),
 									new MaterialColour(0.0f, 0.0f, 0.5f, 1.0f),
 									new MaterialColour(1.0f, 1.0f, 1.0f, 1.0f), 40.f);
-
 
 	pm->set_material(bp1);
 
@@ -120,7 +124,17 @@ void build_scene(Scene& scene)
 	scene.add_object(leftWall);
 	scene.add_object(rightWall);
 
-	Quadratic *elipsoid = new Quadratic(0.25f, )
+	// Semi-axes lengths
+	float a = 2.0f;  // Semi-axis length in the x-direction
+	float b = 1.0f;  // Semi-axis length in the y-direction
+	float c = 0.5f;  // Semi-axis length in the z-direction
+
+	// Create an ellipsoid using the original constructor
+	Quadratic *ellipsoid1 = new Quadratic(1 / (a * a), 1 / (b * b), 1 / (c * c), 0.0f, 0.0f,
+		0.0f,0.0f,0.0f, 0.0f, -1.0f);
+
+	ellipsoid1 ->set_material(gm2);
+	scene.add_object(ellipsoid1);
 }
 
 
@@ -145,6 +159,7 @@ int main(int argc, char *argv[])
 	Vector cameraLookAT (0.0f, 0.0f, 1.0f);
 	Vector cameraUP (0.0f, 1.0f, 0.0f);
 
+	// Camera* camera = new SimpleCamera(0.5f);
 	Camera* camera = new FullCamera(0.5f, cameraPosition, cameraLookAT, cameraUP);
 	// Camera* camera = new FullCamera(0.5f, Vertex(-1.0f, 0.0f, 0.0f), Vector(1.0f, 0.0f, 1.0f), Vector(0.0f, 1.0f, 0.0f));
 	

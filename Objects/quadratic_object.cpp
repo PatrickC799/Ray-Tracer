@@ -68,17 +68,27 @@ Hit *Quadratic::intersection(Ray ray)
   float t0 = (-b - sqrt(discriminant)) / (2*a);
   float t1 = (-b + sqrt(discriminant)) / (2*a);
 
+  if (t0 > t1) {
+    std::swap(t0, t1);
+  }
+
   // Check if the intersections are in the valid range
   if (t0 > 0) {
-    // Create a new hit object with t0
     Hit* hit = new Hit();
-    // Set the position, normal, material, etc. for the hit
-    // Return the hit
+    hit->t = t0;
+    hit->position = ray.position + ray.direction * t0;
+    hit->normal = hit->position;
+    hit->normal.normalise();
+    hit->what = this;/* Material of the surface */;
+    return hit;
   } else if (t1 > 0) {
-    // Create a new hit object with t1
     Hit* hit = new Hit();
-    // Set the position, normal, material, etc. for the hit
-    // Return the hit
+    hit->t = t1;
+    hit->position = ray.position + ray.direction * t1;
+    hit->normal = hit->position;
+    hit->normal.normalise();
+    hit->what = this/* Material of the surface */;
+    return hit;
   }
 
   return nullptr; // No valid intersection
