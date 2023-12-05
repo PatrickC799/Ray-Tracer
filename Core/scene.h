@@ -47,6 +47,9 @@ public:
   // is the one that should recurse down the reflection/refraction tree within a material
   void raytrace(Ray ray, int recurse, Colour& colour, float& depth);
 
+  float computeAmbientOcclusion(const Hit& hit, int numSamples);
+  Vector  generateRandomDirectionWithinHemisphere(const Vector& normal);
+
   // raytrace a shadow ray.
   bool shadowtrace(Ray, float limit);
 

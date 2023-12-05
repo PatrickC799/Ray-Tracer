@@ -12,6 +12,7 @@
 
 #include "material.h"
 #include "material_colour.h"
+#include "scene.h"
 
 class Phong : public Material {
 public:
@@ -20,6 +21,7 @@ public:
 	MaterialColour *diffuse;
 	MaterialColour *specular;
 	float  power;
+	float scale = 0.2f;
 
 	Phong(MaterialColour *p_ambient, MaterialColour *p_diffuse, MaterialColour *p_specular, float p_power);
 //END_STAGE_ONE
@@ -28,7 +30,7 @@ public:
 
 	}
 
-	Colour compute_once(Ray& viewer, Hit& hit, int recurse);
+	Colour compute_once(Ray& viewer, Hit& hit, int recurse, Scene& scene);
 	Colour compute_per_light(Vector& viewer, Hit& hit, Vector& ldir);
 
 };

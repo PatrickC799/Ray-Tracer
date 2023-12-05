@@ -33,10 +33,18 @@ Phong::Phong(MaterialColour *p_ambient, MaterialColour *p_diffuse, MaterialColou
 }
 
 // The compute_once() method supplies the ambient term.
-Colour Phong::compute_once(Ray& viewer, Hit& hit, int recurse)
+Colour Phong::compute_once(Ray& viewer, Hit& hit, int recurse, Scene& scene)
 {
 	Colour result;
 //BEGIN_STAGE_ONE
+	result = ambient->lookup_colour(hit);
+
+	int AO_SAMPLES = 4; // Number of samples for AO, adjust as needed
+	float aoFactor = scene.computeAmbientOcclusion(hit, AO_SAMPLES);
+	ambient->r = ambient->r * (1.0 - aoFactor * scale);
+	ambient->g = ambient->g * (1.0 - aoFactor * scale);
+	ambient->b = ambient->b * (1.0 - aoFactor * scale);
+	ambient->a = ambient->a * (1.0 - aoFactor * scale);
 	result = ambient->lookup_colour(hit);
 //END_STAGE_ONE
 	return result;

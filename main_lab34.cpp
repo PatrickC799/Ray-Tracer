@@ -133,8 +133,8 @@ void build_scene(Scene& scene)
 	Quadratic *ellipsoid1 = new Quadratic(1 / (a * a), 1 / (b * b), 1 / (c * c), 0.0f, 0.0f,
 		0.0f,0.0f,0.0f, 0.0f, -1.0f);
 
-	ellipsoid1 ->set_material(gm2);
-	scene.add_object(ellipsoid1);
+	// ellipsoid1 ->set_material(gm2);
+	// scene.add_object(ellipsoid1);
 }
 
 

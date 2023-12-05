@@ -41,8 +41,7 @@ public:
 	}
 
 	// compute_per_light is called for each light that reaches a surface
-	virtual Colour compute_per_light(Vector &viewer, Hit &hit, Vector &ldir)
-	{
+	virtual Colour compute_per_light(Vector &viewer, Hit &hit, Vector &ldir) {
 		Colour result;
 		result.r = 0.0f;
 		result.g = 0.0f;
