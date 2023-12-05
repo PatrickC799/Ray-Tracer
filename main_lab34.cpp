@@ -100,7 +100,7 @@ void build_scene(Scene& scene)
 
 	pm->set_material(bp1);
 
-	scene.add_object(pm);
+	// scene.add_object(pm);
 
 	sphere->set_material(gm1);
 

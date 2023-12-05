@@ -27,9 +27,9 @@
 // The base class implements a simple constant colour.
 class MaterialColour {
 
-	// float r,g,b,a;
-public:
 	float r,g,b,a;
+public:
+	// float r,g,b,a;
 
 	MaterialColour(float red, float green, float blue, float alpha)
 	{
