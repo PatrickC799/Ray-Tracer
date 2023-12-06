@@ -1,0 +1,78 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "raytracer_start_2",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "MainLab1::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MainLab1-Debug-102ff719046863b96822.json",
+					"name" : "MainLab1",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MainLab2::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MainLab2-Debug-bc942c8c0bccbbac0b8b.json",
+					"name" : "MainLab2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MainLab34::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MainLab34-Debug-87aef467484a2e05e5cb.json",
+					"name" : "MainLab34",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/patrickcunningham/CLionProjects/coursework_example_soln-2/cmake-build-debug",
+		"source" : "/Users/patrickcunningham/CLionProjects/coursework_example_soln-2"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}
