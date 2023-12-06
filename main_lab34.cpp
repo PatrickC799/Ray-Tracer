@@ -36,6 +36,7 @@
 
 // classes that contain our lights, all derived from Light
 #include "directional_light.h"
+#include "area_light.h"
 
 // classes that contain the materials applied to an object, all derived from Material
 #include "phong_material.h"
@@ -43,6 +44,8 @@
 #include "global_material.h"
 
 //classes that contain cameras, all derived from Camera
+#include <complex>
+
 #include "simple_camera.h"
 #include "full_camera.h"
 #include "quadratic_object.h"
@@ -64,13 +67,22 @@ void build_scene(Scene& scene)
 	//  Read in the teapot model.
 	PolyMesh* pm = new PolyMesh((char *)"teapot.obj", true);
 	pm->apply_transform(*transform);
-
+	Plane *leftWall = new Plane(-1.0f, 0.0f, 0.0f, -25.0f);
 	Sphere* sphere = new Sphere(Vertex(-5.0f, 5.0f, 10.0f), 1.5f);
+	Sphere* sphere2 = new Sphere(Vertex(-25.0f, 0.0f, 5.0f), 1.5f);
 
 	DirectionalLight* dl = new DirectionalLight(Vector(0.0f, 0.0f, 1.0f), Colour(1.0f, 1.0f, 1.0f, 0.0f));
 	DirectionalLight* dl1 = new DirectionalLight(Vector(0.0f, 0.0f, 0.5f), Colour(1.0f, 1.0f, 1.0f, 0.0f));
 
-	scene.add_light(dl1);
+	Vertex position (0.0f, 0.0f, -3.0f);
+	Vector normal (0.0f, 0.0f, -1.0f);
+	Colour areaLight (1.0f, 0.0f, 0.0f, 1.0f);
+
+	AreaLight* al1 = new AreaLight(position, normal, 30.0f, 30.0f, areaLight);
+
+	scene.add_light(al1);
+
+	// scene.add_light(dl1);
 	scene.add_light(dl);
 
     Environment* environment = new Environment();
@@ -106,26 +118,31 @@ void build_scene(Scene& scene)
 	scene.add_object(pm);
 
 	sphere->set_material(gm1);
+	sphere->set_material(gm1);
 
+	scene.add_object(sphere2);
 	scene.add_object(sphere);
 
-	Plane *ceiling = new Plane(0.0f, 1.0f, 0.0f, -9.0f);
-	Plane *floor = new Plane(0.0f, -1.0f, 0.0f, -14.0f);
-	Plane *backWall = new Plane(0.0f, 0.0f, 1.0f, -25.0f);
-	Plane *leftWall = new Plane(1.0f, 0.0f, 0.0f, -20.0f);
-	Plane *rightWall = new Plane(-1.0f, 0.0f, 0.0f, -20.0f);
+	Plane *ceiling = new Plane(0.0f, 1.0f, 0.0f, -25.0f);
+	Plane *floor = new Plane(0.0f, -1.0f, 0.0f, -25.0f);
+	Plane *backWall = new Plane(0.0f, 0.0f, 1.0f, -24.0f);
+	Plane *frontWall = new Plane(0.0f, 0.0f, -1.0f, 26.0f);
+	Plane *rightWall = new Plane(1.0f, 0.0f, 0.0f, -25.0f);
+	Plane *leftWall = new Plane(-1.0f, 0.0f, 0.0f, -25.0f);
 
 	ceiling->set_material(whiteMaterial);
 	floor ->set_material(whiteMaterial);
 	backWall->set_material(blueMaterial);
 	leftWall->set_material(redMaterial);
 	rightWall->set_material(greenMaterial);
+	frontWall->set_material(blueMaterial);
 
-	scene.add_object(ceiling);
-	scene.add_object(floor);
-	scene.add_object(backWall);
-	scene.add_object(leftWall);
-	scene.add_object(rightWall);
+	// scene.add_object(ceiling);
+	// scene.add_object(floor);
+	// scene.add_object(backWall);
+	// scene.add_object(leftWall);
+	// scene.add_object(rightWall);
+	// scene.add_object(frontWall);
 
 	// Semi-axes lengths
 	float a = 2.0f;  // Semi-axis length in the x-direction
@@ -135,6 +152,14 @@ void build_scene(Scene& scene)
 	// Create an ellipsoid using the original constructor
 	Quadratic *ellipsoid1 = new Quadratic(1 / (a * a), 1 / (b * b), 1 / (c * c), 0.0f, 0.0f,
 		0.0f,0.0f,0.0f, 0.0f, -1.0f);
+
+	CSG *viewingCube = new CSG(CSG::CSG_INTER, ceiling, floor);
+	viewingCube = new CSG(CSG::CSG_INTER, viewingCube, backWall);
+	viewingCube = new CSG(CSG::CSG_INTER, viewingCube, leftWall);
+	viewingCube = new CSG(CSG::CSG_INTER, viewingCube, rightWall);
+	// viewingCube = new CSG(CSG::CSG_INTER, viewingCube, frontWall);
+	// viewingCube->set_material(whiteMaterial);
+	scene.add_object(viewingCube);
 
 	ellipsoid1 ->set_material(gm2);
 	scene.add_object(ellipsoid1);
@@ -158,7 +183,7 @@ int main(int argc, char *argv[])
 	// Declare a camera
 	// Camera *camera = new SimpleCamera(0.5f);
 
-	Vertex cameraPosition (0.0f, -3.0f, -5.0f);
+	Vertex cameraPosition (0.0f, 0.0f, -5.0f);
 	Vector cameraLookAT (0.0f, 0.0f, 1.0f);
 	Vector cameraUP (0.0f, 1.0f, 0.0f);
 

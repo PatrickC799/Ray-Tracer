@@ -41,6 +41,12 @@ file(GLOB CORE_HEADERS
 )
 
 # Compile and link executables for each main file along with core files
-add_executable(MainLab1 main_lab1.cpp ${CORE_SOURCES} ${CORE_HEADERS})
-add_executable(MainLab2 main_lab2.cpp ${CORE_SOURCES} ${CORE_HEADERS})
-add_executable(MainLab34 main_lab34.cpp ${CORE_SOURCES} ${CORE_HEADERS})
+add_executable(MainLab1 main_lab1.cpp ${CORE_SOURCES} ${CORE_HEADERS}
+        Lights/area_light.h
+        Lights/area_light.cpp)
+add_executable(MainLab2 main_lab2.cpp ${CORE_SOURCES} ${CORE_HEADERS}
+        Lights/area_light.h
+        Lights/area_light.cpp)
+add_executable(MainLab34 main_lab34.cpp ${CORE_SOURCES} ${CORE_HEADERS}
+        Lights/area_light.h
+        Lights/area_light.cpp)

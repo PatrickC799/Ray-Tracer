@@ -203,7 +203,9 @@ void Scene::raytrace(Ray ray, int recurse, Colour &colour, float &depth)
 
 		  if (ldir.dot(best_hit->normal) > 0)
 		  {
+		  	  // std::cout << "Babes it is not looking good" << std::endl;
 			  lit = false;//light is facing wrong way.
+		  	  // std::cout << "lit = " << lit << std::endl;
 		  }
 
 		  // Put the shadow check here, if lit==true and in shadow, set lit=false
@@ -226,7 +228,7 @@ void Scene::raytrace(Ray ray, int recurse, Colour &colour, float &depth)
 		  if (lit)
 		  {
 			  Colour intensity;
-			  
+		  	  // std::cout << "Babes it is not looking good" << std::endl;
 			  light->get_intensity(best_hit->position, intensity);
 			  
 			  colour = colour + intensity * best_hit->what->material->compute_per_light(viewer, *best_hit, ldir); // this is the per light local contrib e.g. diffuse, specular

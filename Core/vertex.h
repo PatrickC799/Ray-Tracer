@@ -82,4 +82,13 @@ public:
 		return r;
 	}
 
+	Vector operator-(const Vertex &b) {
+		Vector r;
+		r.x = this->x - b.x;
+		r.y = this->y - b.y;
+		r.z = this->z - b.z;
+		return r;
+	}
+
+
 };

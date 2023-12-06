@@ -105,12 +105,12 @@ Colour GlobalMaterial::compute_once(Ray& viewer, Hit& hit, int recurse)
     finalColor.b = fresnelEffect * reflectedColor.b + (1 - fresnelEffect) * (tir ? 0 : refractedColor.b);
     finalColor.a = 1.0f; // Assuming alpha is always 1, adjust if needed
 
-    int AO_SAMPLES = 8; // Number of samples for AO, adjust as needed
-    float aoFactor = scene->computeAmbientOcclusion(hit, AO_SAMPLES);
-    finalColor.a *= (1.0 - aoFactor * scale);
-    finalColor.r *= (1.0 - aoFactor * scale);
-    finalColor.g *= (1.0 - aoFactor * scale);
-    finalColor.b *= (1.0 - aoFactor * scale);
+    // int AO_SAMPLES = 128; // Number of samples for AO, adjust as needed
+    // float aoFactor = scene->computeAmbientOcclusion(hit, AO_SAMPLES);
+    // finalColor.a *= (1.0 - aoFactor * scale);
+    // finalColor.r *= (1.0 - aoFactor * scale);
+    // finalColor.g *= (1.0 - aoFactor * scale);
+    // finalColor.b *= (1.0 - aoFactor * scale);
 
     return finalColor;
 

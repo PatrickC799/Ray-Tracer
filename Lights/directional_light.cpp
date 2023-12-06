@@ -16,6 +16,7 @@
 * produced it.
 */
 
+#include <iostream>
 #include "directional_light.h"
 
 DirectionalLight::DirectionalLight()
@@ -42,4 +43,9 @@ bool DirectionalLight::get_direction(Vertex &surface, Vector &dir)
 void DirectionalLight::get_intensity(Vertex &surface, Colour &level)
 {
 	level = intensity;
+
+	// std::cout << "Light Level: "
+	//       << "R: " << level.r << ", "
+	//       << "G: " << level.g << ", "
+	//       << "B: " << level.b << std::endl;
 }
