@@ -40,12 +40,12 @@ Colour Phong::compute_once(Ray& viewer, Hit& hit, int recurse)
 //BEGIN_STAGE_ONE
 	result = ambient->lookup_colour(hit);
 
-	// int AO_SAMPLES = 128; // Number of samples for AO, adjust as needed
-	// float aoFactor = scene->computeAmbientOcclusion(hit, AO_SAMPLES);
-	// result.a *= (1.0 - aoFactor * scale);
-	// result.r *= (1.0 - aoFactor * scale);
-	// result.g *= (1.0 - aoFactor * scale);
-	// result.b *= (1.0 - aoFactor * scale);
+	int AO_SAMPLES = 64; // Number of samples for AO, adjust as needed
+	float aoFactor = scene->computeAmbientOcclusion(hit, AO_SAMPLES);
+	result.a *= (1.0 - aoFactor * scale);
+	result.r *= (1.0 - aoFactor * scale);
+	result.g *= (1.0 - aoFactor * scale);
+	result.b *= (1.0 - aoFactor * scale);
 
 //END_STAGE_ONE
 	return result;

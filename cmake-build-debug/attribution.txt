@@ -1,0 +1,7 @@
+{"name": "Patrick C"
+,
+"title": "Christmas Tea"
+,
+"include": "no",
+"_comment": "Change the line above to no if you wish to opt-out of the gallery"
+}

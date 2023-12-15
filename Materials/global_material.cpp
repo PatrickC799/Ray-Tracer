@@ -81,7 +81,7 @@ Colour GlobalMaterial::compute_once(Ray& viewer, Hit& hit, int recurse)
     if (scene != nullptr) {
         scene->raytrace(reflectedRay, recurse - 1, reflectedColor, reflectedDepth);
     } else {
-        std::cout << "Didn't work babes " << recurse << std::endl;
+
     }
 
     // Calculate refracted ray
@@ -103,14 +103,14 @@ Colour GlobalMaterial::compute_once(Ray& viewer, Hit& hit, int recurse)
     finalColor.r = fresnelEffect * reflectedColor.r + (1 - fresnelEffect) * (tir ? 0 : refractedColor.r);
     finalColor.g = fresnelEffect * reflectedColor.g + (1 - fresnelEffect) * (tir ? 0 : refractedColor.g);
     finalColor.b = fresnelEffect * reflectedColor.b + (1 - fresnelEffect) * (tir ? 0 : refractedColor.b);
-    finalColor.a = 1.0f; // Assuming alpha is always 1, adjust if needed
+    finalColor.a = 1.0f; // Assuming alpha is always 1
 
-    // int AO_SAMPLES = 128; // Number of samples for AO, adjust as needed
-    // float aoFactor = scene->computeAmbientOcclusion(hit, AO_SAMPLES);
-    // finalColor.a *= (1.0 - aoFactor * scale);
-    // finalColor.r *= (1.0 - aoFactor * scale);
-    // finalColor.g *= (1.0 - aoFactor * scale);
-    // finalColor.b *= (1.0 - aoFactor * scale);
+    int AO_SAMPLES = 64; // Number of samples for AO, adjust as needed
+    float aoFactor = scene->computeAmbientOcclusion(hit, AO_SAMPLES);
+    finalColor.a *= (1.0 - aoFactor * scale);
+    finalColor.r *= (1.0 - aoFactor * scale);
+    finalColor.g *= (1.0 - aoFactor * scale);
+    finalColor.b *= (1.0 - aoFactor * scale);
 
     return finalColor;
 
